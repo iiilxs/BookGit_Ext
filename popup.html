@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 顶栏 + 状态一体 -->
+<div class="header"> <div class="header-brand"> <img class="header-logo" src="icons/logo.png" alt=""> <span class="logo">BookGit</span> <div class="donation-overlay"> <img class="donation-qr" src="weixin.png" alt="微信赞赏"> <p class="donation-text">如果 BookGit 为你省下了管理书签的时间，不妨请作者喝杯咖啡 ☕</p> </div> </div>
+  <span id="statusDot" class="dot">●</span>
+  <span id="statusText" class="status-text">就绪</span>
+  <span class="version">v1.0.3</span>
+  <button id="refreshBtn" class="icon-btn" title="刷新">↻</button>
+</div>
+
+<!-- 同步按钮 -->
+<button id="syncBtn" class="btn-primary">↻ 立即同步</button>
+
+<!-- 标签 -->
+<div class="tabs">
+  <button class="tab active" data-tab="config">配置</button>
+  <button class="tab" data-tab="stats">统计</button>
+  <button class="tab" data-tab="history">历史</button>
+</div>
+
+<!-- ======== 配置 ======== -->
+<div id="tab-config" class="tab-content active">
+
+  <!-- Token（连通后永久锁定，无法查看/修改）-->
+  <div class="field-row">
+    <div class="field-grow">
+      <label>Token</label>
+      <!-- 已连通锁定态 -->
+      <div id="tokenVerified" class="token-locked-bar" style="display:none">
+        <span>🔒 Token · <span id="tokenUser">-</span></span>
+      </div>
+      <!-- 未连通编辑态 -->
+      <div id="tokenUnconfigured" class="input-group" style="display:none">
+        <input type="password" id="token" class="input" placeholder="ghp_xxxxxxxxxx">
+        <button id="lockTokenBtn" class="btn-icon" title="防止泄露：Token验证通过，即永久锁定">🔒</button>
+      </div>
+    </div>
+    <div class="field-shrink">
+      <label>&nbsp;</label>
+      <button id="loadReposBtn" class="btn-secondary" title="重新加载仓库列表">↻</button>
+    </div>
+  </div>
+
+  <!-- 所有者 + 仓库 -->
+  <div class="field-row">
+    <div class="field-half">
+      <label>所有者</label>
+      <select id="ownerSelect" class="input"><option value="">—</option></select>
+    </div>
+    <div class="field-half">
+      <label>仓库</label>
+      <select id="repoSelect" class="input"><option value="">—</option></select>
+    </div>
+  </div>
+
+  <!-- 分支 + 路径 -->
+  <div class="field-row">
+    <div class="field-third">
+      <label>分支</label>
+      <select id="branchSelect" class="input"><option value="">—</option></select>
+    </div>
+    <div class="field-two-thirds">
+      <label>路径</label>
+      <input type="text" id="filePath" class="input" value="bookgit.json">
+    </div>
+  </div>
+
+  <!-- 自动同步 + 间隔 -->
+  <div class="field-row">
+    <div class="field-auto">
+      <div class="switch-row">
+        <span>自动同步</span>
+        <label class="switch">
+          <input type="checkbox" id="autoSync" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div id="intervalField" class="field-interval">
+      <label>间隔</label>
+      <select id="interval" class="input">
+        <option value="60">1 小时</option>
+        <option value="120">2 小时</option>
+        <option value="300" selected>5 小时</option>
+        <option value="0">仅手动</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 操作按钮 -->
+  <div class="action-row">
+    <button id="testBtn" class="btn-ghost" title="检测 Token 有效性和仓库访问权限">● 测试</button>
+    <button id="exportBtn" class="btn-ghost" title="将配置（不含 Token）复制到剪贴板，用于在其他浏览器导入">↗ 导出</button>
+    <button id="importBtn" class="btn-ghost" title="从剪贴板读取 BookGit 配置并应用">↘ 导入</button>
+    <button id="repairBtn" class="btn-ghost" title="下载远程数据 → 自动去重 → 重新上传，不影响本地。修复 GitHub 上已有的重复项">🔧 修复</button>
+    <button id="helpBtn" class="btn-ghost" title="帮助指南">❓ 帮助</button>
+  </div>
+
+  <textarea id="configArea" class="config-box" readonly></textarea>
+</div>
+
+<!-- ======== 统计 ======== -->
+<div id="tab-stats" class="tab-content">
+  <div class="stat-list">
+    <div class="stat-row"><span>本地书签</span><span id="localBookmarks" class="stat-val">-</span></div>
+    <div class="stat-row"><span>本地文件夹</span><span id="localFolders" class="stat-val">-</span></div>
+    <div class="stat-row"><span>上次同步</span><span id="lastSyncTime" class="stat-val">-</span></div>
+    <div class="stat-row"><span>网络状态</span><span id="networkStatus" class="stat-val">检测中...</span></div>
+  </div>
+  <div class="action-row" style="margin-top:8px">
+    <button id="dedupBtn" class="btn-ghost" title="扫描并移除本地收藏夹中的重复书签，保留每个 URL 首次出现的位置">🗑 一键去重</button>
+  </div>
+</div>
+
+<!-- ======== 去重确认弹窗 ======== -->
+<div id="dedupModal" class="modal-overlay" style="display:none">
+  <div class="modal-dialog">
+    <div class="modal-title" id="dedupTitle">🔍 扫描重复书签</div>
+    <p id="dedupInfo" class="modal-desc" style="margin-bottom:6px"></p>
+    <div id="dedupList" class="history-list" style="max-height:150px;margin:0 0 8px;"></div>
+    <button id="dedupConfirmBtn" class="modal-btn modal-primary" style="display:none">🗑 确认去重</button>
+    <button class="modal-btn modal-cancel" id="dedupModalCancel">取消</button>
+  </div>
+</div>
+
+<!-- ======== 历史 ======== -->
+<div id="tab-history" class="tab-content">
+  <div id="historyList" class="history-list">
+    <div class="empty">暂无记录</div>
+  </div>
+</div>
+
+<!-- ======== 同步模式弹窗 ======== -->
+<div id="syncModal" class="modal-overlay" style="display:none">
+  <div class="modal-dialog">
+    <div class="modal-title">选择同步方式</div>
+    <button class="modal-btn modal-primary" data-mode="merge">🔄 智能合并</button>
+    <p class="modal-desc">双向合并，自动去重防止重复。（推荐）</p>
+    <button class="modal-btn" data-mode="upload">⬆ 上传本地 → 远程</button>
+    <p class="modal-desc">用本地书签完全覆盖远程数据</p>
+    <button class="modal-btn" data-mode="download">⬇ 远程 → 本地</button>
+    <p class="modal-desc">用远程数据完全覆盖本地书签</p>
+    <button class="modal-btn modal-cancel" id="syncModalCancel">取消</button>
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

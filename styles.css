@@ -1,0 +1,290 @@
+/* ============================================================ */
+/* BookGit — ChatGPT 风格极简紧凑主题                            */
+/* ============================================================ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #1a1a1a;
+  --surface:   #222;
+  --surface2:  #282828;
+  --border:    #2e2e2e;
+  --border-hi: #3a3a3a;
+  --text:      #e0e0e0;
+  --text2:     #999;
+  --text3:     #555;
+  --accent:    #fff;
+  --success:   #5a8;
+  --error:     #c55;
+  --warn:      #ca5;
+  --radius:    8px;
+  --radius-sm: 5px;
+}
+
+body {
+  width: 340px;
+  font: 12.5px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- 顶栏（含状态）---- */
+
+.header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px 4px;
+}
+.header-logo { height: 14px; width: auto; display: block; }
+.logo { font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: .3px; }
+.dot { font-size: 9px; color: var(--text3); }
+.dot.success { color: var(--success); }
+.dot.error   { color: var(--error); }
+.dot.conflict{ color: var(--warn); }
+.dot.waiting { color: var(--text3); }
+.status-text { flex: 1; font-size: 11px; color: var(--text3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.version { font-size: 10px; color: var(--text3); }
+.icon-btn {
+  background: none; border: none; color: var(--text3); cursor: pointer;
+  font-size: 12px; padding: 2px 4px; border-radius: var(--radius-sm); line-height: 1;
+}
+.icon-btn:hover { color: var(--text); background: var(--surface2); }
+
+/* ---- 主按钮 ---- */
+
+.btn-primary {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  width: calc(100% - 24px); margin: 6px 12px 8px;
+  padding: 7px; border: none; border-radius: var(--radius);
+  background: #2e2e2e; color: var(--accent); font-size: 12.5px; font-weight: 600;
+  cursor: pointer; transition: background .15s; letter-spacing: .2px;
+}
+.btn-primary:hover { background: #383838; }
+.btn-primary:active { background: #444; }
+.btn-primary:disabled { opacity: .35; cursor: default; }
+
+/* ---- 标签 ---- */
+
+.tabs {
+  display: flex; gap: 0;
+  margin: 0 12px 6px;
+  border-bottom: 1px solid var(--border);
+}
+.tab {
+  flex: 1; padding: 5px 0 6px;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--text3); font-size: 11px; cursor: pointer; transition: color .15s, border-color .15s;
+}
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ---- 面板 ---- */
+
+.tab-content { display: none; padding: 0 12px 8px; }
+.tab-content.active { display: block; min-height: 240px; }
+
+/* ---- 字段行（两列/三列布局）---- */
+
+.field-row {
+  display: flex; gap: 8px; align-items: flex-end; margin-bottom: 6px;
+}
+.field-grow { flex: 1; min-width: 0; }
+.field-shrink { flex-shrink: 0; }
+.field-half { flex: 1; min-width: 0; }
+.field-third { flex: 0 0 80px; }
+.field-two-thirds { flex: 1; min-width: 0; }
+.field-auto { flex: 0 0 auto; }
+.field-interval { flex: 0 0 110px; }
+.field-interval.hidden { display: none; }
+
+/* ---- 表单 ---- */
+
+label { display: block; font-size: 10.5px; color: var(--text2); margin-bottom: 2px; text-transform: uppercase; letter-spacing: .5px; }
+
+.input {
+  width: 100%; padding: 5px 7px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); font-size: 12px; outline: none; transition: border-color .15s;
+}
+.input:focus { border-color: var(--text3); }
+.input::placeholder { color: var(--text3); font-size: 11px; }
+select.input { cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23555'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 7px center; padding-right: 22px;
+}
+
+.input-group { display: flex; gap: 4px; }
+.input-group .input { flex: 1; }
+
+/* ---- Token 安全显示 ---- */
+
+.token-locked-bar {
+  padding: 5px 7px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 11px; color: var(--text3); user-select: none;
+}
+.token-locked-bar span { display: flex; align-items: center; gap: 4px; }
+
+/* ---- icon 按钮 ---- */
+.btn-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; flex-shrink: 0;
+  background: none; border: 1px solid transparent; border-radius: var(--radius-sm);
+  color: var(--text3); cursor: pointer; font-size: 12px; transition: .15s;
+}
+.btn-icon:hover { background: var(--surface2); border-color: var(--border); color: var(--text); }
+
+/* ---- 次要按钮 ---- */
+
+.btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 3px;
+  padding: 4px 8px; min-width: 26px; height: 26px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text3); font-size: 12px; cursor: pointer; transition: .15s;
+}
+.btn-secondary:hover { background: var(--surface2); border-color: var(--border-hi); color: var(--text); }
+
+/* ---- 开关 ---- */
+
+.switch-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
+.switch-row span { font-size: 12px; color: var(--text); white-space: nowrap; }
+
+.switch { position: relative; display: inline-block; width: 30px; height: 18px; cursor: pointer; flex-shrink: 0; }
+.switch input { display: none; }
+.slider {
+  position: absolute; inset: 0;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 9px;
+  transition: .2s;
+}
+.slider::after {
+  content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--text3); top: 2px; left: 2px; transition: .2s cubic-bezier(.4,0,.2,1);
+}
+.switch input:checked + .slider { background: #3a3a3a; border-color: var(--border-hi); }
+.switch input:checked + .slider::after { transform: translateX(12px); background: var(--accent); }
+
+/* ---- 操作按钮行 ---- */
+
+.action-row { display: flex; gap: 4px; margin-top: 6px; }
+.action-row .btn-ghost { flex: 1; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 3px;
+  padding: 5px 6px; border: 1px solid transparent; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text3); font-size: 11px; cursor: pointer; transition: .15s;
+}
+.btn-ghost:hover { background: var(--surface); border-color: var(--border); color: var(--text2); }
+
+/* ---- 统计 ---- */
+
+.stat-list { margin-top: 2px; }
+.stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 12px;
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-row span:first-child { color: var(--text2); }
+.stat-val { font-weight: 500; color: var(--text); }
+
+/* ---- 历史（无滚动条）---- */
+
+.history-list {
+  max-height: 200px; overflow-y: auto; margin-top: 2px;
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;   /* IE */
+}
+.history-list::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+.empty { text-align: center; color: var(--text3); padding: 24px 0; font-size: 11px; }
+.h-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 0; font-size: 11px; border-bottom: 1px solid var(--border);
+}
+.h-item:last-child { border-bottom: none; }
+.h-icon { font-weight: 700; flex-shrink: 0; width: 14px; text-align: center; font-size: 11px; }
+.h-icon.success { color: var(--success); }
+.h-icon.error   { color: var(--error); }
+.h-icon.conflict{ color: var(--warn); }
+.h-msg { flex: 1; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.h-time { color: var(--text3); flex-shrink: 0; font-size: 10px; }
+
+/* ---- 配置导出 ---- */
+
+.config-box {
+  display: none; width: 100%; margin-top: 6px; padding: 6px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text2); font: 10px/1.3 "Cascadia Code", "Fira Code", monospace;
+  resize: vertical; min-height: 40px; outline: none;
+}
+.config-box:focus { border-color: var(--text3); }
+
+/* ---- 同步弹窗 ---- */
+
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+}
+.modal-dialog {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; width: 270px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+.modal-title { font-size: 13px; font-weight: 600; color: var(--accent); text-align: center; margin-bottom: 12px; }
+.modal-btn {
+  display: block; width: 100%; padding: 8px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--surface2); color: var(--text);
+  font-size: 12px; cursor: pointer; text-align: center; transition: background .15s;
+}
+.modal-btn:hover { background: var(--surface); }
+.modal-btn.modal-primary { background: #2e2e2e; border-color: #444; font-weight: 600; }
+.modal-btn.modal-primary:hover { background: #383838; }
+.modal-btn.modal-cancel { margin-top: 6px; border-color: transparent; color: var(--text3); background: transparent; }
+.modal-btn.modal-cancel:hover { color: var(--text2); background: var(--surface2); }
+.modal-desc { font-size: 10px; color: var(--text3); margin: 1px 0 7px 2px; line-height: 1.3; }
+
+
+/* ---- 捐赠悬浮遮罩 ---- */
+
+.header-brand {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.donation-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 26, 26, .95);
+  z-index: 1000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+}
+
+.header-brand:hover .donation-overlay {
+  display: flex;
+}
+
+.donation-qr {
+  width: 150px;
+  height: auto;
+  display: block;
+  margin-bottom: 16px;
+  border-radius: 6px;
+}
+
+.donation-text {
+  font-size: 12px;
+  color: var(--text2);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 240px;
+}
