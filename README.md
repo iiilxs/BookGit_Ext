@@ -5,9 +5,9 @@
 BookGit 是一个 Chrome 扩展，把你的浏览器书签同步到 GitHub 仓库。家里电脑和公司电脑各装一个，两端书签始终保持一致。全程走 GitHub 公开 API，不需要任何自建服务器。
 
 <p>
-  <img src="1解决痛点.png" width="300" alt="解决痛点" hspace="5">
-  <img src="2核心特征.png" width="300" alt="核心特征" hspace="5">
-  <img src="3界面预览.png" width="300" alt="界面预览" hspace="5">
+  <img src="1解决痛点.png" width="200" alt="解决痛点" hspace="5">
+  <img src="2核心特征.png" width="200" alt="核心特征" hspace="5">
+  <img src="3界面预览.png" width="200" alt="界面预览" hspace="5">
 </p>
 
 ---
