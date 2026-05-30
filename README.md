@@ -1,14 +1,13 @@
-# BookGit
+<img src="logo.png" width="300" alt="BookGit">
 
 > 🔁 通过 GitHub 仓库同步 Chrome 浏览器书签，无需 VPN，无需服务器
 
 BookGit 是一个 Chrome 扩展，把你的浏览器书签同步到 GitHub 仓库。家里电脑和公司电脑各装一个，两端书签始终保持一致。全程走 GitHub 公开 API，不需要任何自建服务器。
 
-<p align="center">
-  <img src="logo.png" width="200" alt="BookGit">
-  <img src="1解决痛点.png" width="200" alt="解决痛点">
-  <img src="2核心特征.png" width="200" alt="核心特征">
-  <img src="3界面预览.png" width="200" alt="界面预览">
+<p>
+  <img src="1解决痛点.png" width="300" alt="解决痛点" hspace="5">
+  <img src="2核心特征.png" width="300" alt="核心特征" hspace="5">
+  <img src="3界面预览.png" width="300" alt="界面预览" hspace="5">
 </p>
 
 ---
@@ -289,7 +288,7 @@ chrome://extensions → 找到 BookGit → 点击「移除」
 
 如果 BookGit 为你省下了管理书签的时间，不妨请作者喝杯咖啡 ☕
 
-<img src="weixin.png" width="120" alt="微信赞赏">
+<img src="weixin.png" width="220" alt="微信赞赏">
 
 你的支持是开源项目持续改进的最大动力。
 
